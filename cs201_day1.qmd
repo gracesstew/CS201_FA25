@@ -1,0 +1,32 @@
+---
+title: "CS201_day1"
+author: "Grace Stewart"
+date: 9/5/25
+format: html
+editor: visual
+---
+
+## CS-201 Day 1
+
+What is the difference between R and RStudio?
+
+## Running Code
+
+Try running some code
+
+```{r}
+1 + 1
+1 + 87
+0.1 + 0.1 + 0.1 - 0.3
+
+options(scipen = 999)
+```
+
+You can add options to executable code like this
+
+```{r}
+#| echo: false
+2 * 2
+```
+
+The `echo: false` option disables the printing of code (only output is displayed).

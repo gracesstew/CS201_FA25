@@ -170,12 +170,14 @@ Create a scatterplot of two variables of your choice (but not `mpg` vs. `wt`). F
 ggplot(mtcars, aes(x = hp, y = disp)) +
   geom_point(color = "blue") + # points
   labs(
-    title = "Horsepower Vs. Displacement (Engine Size)",
+    title = "Horsepower Vs. Displacement",
+    subtitle = "Cars with more horsepower tend to have larger displacement (engine size).",
     x = "Horsepower",
     y = "Displacement (cu.in)"
   ) +
   theme(
-    plot.title = element_text(hjust = 0.5, face = "bold", size = 14)
+    plot.title = element_text(hjust = 0.5, face = "bold", size = 14),
+    plot.subtitle = element_text(hjust = 0.5, size = 12)
   )
 ```
 

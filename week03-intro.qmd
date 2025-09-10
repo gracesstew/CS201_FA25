@@ -181,4 +181,32 @@ ggplot(mtcars, aes(x = hp, y = disp)) +
   )
 ```
 
+```{r}
+ggplot(mtcars, aes(x = disp)) +
+  geom_histogram(binwidth = 50, fill = "pink", color = "black") +
+  labs(
+    title = "Distribution of Engine Displacement",
+    x = "Displacement (cu.in.)",
+    y = "Count"
+  ) +
+  theme(
+    plot.title = element_text(hjust = 0.5, face = "bold", size = 14)
+  )
+
+```
+
+```{r}
+ggplot(mtcars, aes(x = factor(cyl), y = disp, fill = factor(cyl))) +
+  geom_boxplot() +
+  labs(
+    title = "Engine Displacement by Cylinder Count",
+    x = "Number of Cylinders",
+    y = "Displacement (cu.in.)",
+    fill = "Cylinders"
+  ) +
+  theme(
+    plot.title = element_text(hjust = 0.5, face = "bold", size = 14)
+  )
+```
+
 Save, stage, commit, and push to GitHub!!

@@ -256,6 +256,17 @@ ggplot(data = penguins_data, aes(x = flipper_length_mm, y = body_mass_g, color =
 
 ```{r, message=FALSE}
  
+ggplot(data = penguins_data, aes(x = culmen_depth_mm, fill = species)) +
+  theme_bw() +
+  scale_fill_viridis_d() +
+  geom_histogram() +
+  labs(
+    title = "Culmen Depth by species",
+    subtitle = "part 1: histogram",
+    x = "culmen depth (mm)",
+    y = "count",
+    fill = "species"
+  )
 ```
 
 -   Part 2
@@ -264,6 +275,17 @@ ggplot(data = penguins_data, aes(x = flipper_length_mm, y = body_mass_g, color =
 
 ```{r, message=FALSE}
 
+ggplot(data = penguins_data, aes(x = culmen_depth_mm, y = body_mass_g, color = species)) +
+  theme_bw() +
+  scale_color_viridis_d(option = "mako") +
+  geom_point() +
+  labs(
+    title = "Culmen Depth per Species",
+    subtitle = "part 2: scatterplot",
+    x = "culmen depth (mm)",
+    y = "body mass (g)",
+    color = "species"
+  )
 ```
 
 -   Part 3
@@ -277,6 +299,20 @@ ggplot(data = penguins_data, aes(x = flipper_length_mm, y = body_mass_g, color =
         -   Run `ggplotly(plot_name)` and explore! Edit `plot_name` accordingly
 
 ```{r, message=FALSE}
+
+part3 <- ggplot(data = penguins_data, aes(x = culmen_depth_mm, y = body_mass_g, color = species)) +
+  theme_bw() +
+  scale_color_viridis_d(option = "mako") +
+  geom_point() +
+  labs(
+    title = "Culmen Depth per Species",
+    subtitle = "part 2: scatterplot",
+    x = "culmen depth (mm)",
+    y = "body mass (g)",
+    color = "species"
+  )
+
+ggplotly(part3)
 
 ```
 

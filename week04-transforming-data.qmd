@@ -167,7 +167,13 @@ ggplot(data = average_flipper, aes(x = species, y = average_flipper_length, fill
   ) +
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
-  # tells ggplot to use the actual y-values from your data, instead of counting the number of rows like a typical bar plot does
+
+#ggplot(data = average_flipper, aes(x = species, y = average_flipper_length, fill = species)) +
+#  geom_bar(stat = "identity") +
+#  theme_bw() +
+#  coord_flip() +
+#  theme(legend.position = "none") +
+#  labs(title = "TITLE", subtitle = "SUBTITLE", x = "", y = "")
 ```
 
 ## Exercise 2
@@ -178,7 +184,10 @@ Create a boxplot of body mass by species & make the plot interactive
 
 ```{r, message=FALSE}
 
+ex2 <- ggplot(data = penguins_data, aes(x = species, y = body_mass_g, fill = species)) +
+         geom_boxplot()
 
+ggplotly(ex2)
 ```
 
 ## Exercise 3
@@ -189,7 +198,12 @@ How many penguins live on each Island?
 
 ```{r, message=FALSE}
 
+summary(asfactor.(penguins_data$island)) # $ selects variable of interest
 
+table(penguins_data$island)
+
+penguins_data %>% 
+  count(island)
 ```
 
 ## Exercise 4
@@ -198,7 +212,15 @@ Create a dataframe that has the average culmen depth for each species. Then, mak
 
 ```{r, message=FALSE}
 
+average_culmen <- penguins_data %>% 
+  group_by(species) %>% 
+  summarise(average_culmen_depth = mean(culmen_depth_mm, na.rm = TRUE))
 
+ggplot(data = average_culmen, aes(x = species, y = average_culmen_depth, fill = species)) +
+  geom_bar(stat = "identity") +
+  theme_bw() +
+  theme(legend.position = "none") +
+  labs(title = "Average Culmen Depth per Species", subtitle = "Exercise 4", x = "species", y = "culmen depth (mm)")
 ```
 
 ## Push to GitHub!

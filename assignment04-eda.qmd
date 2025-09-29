@@ -64,10 +64,16 @@ Before you make plots, you must also:
 
 ```{r}
 
-summary(vgdata)
+count <- vgdata %>%
+  filter(!is.na(Genre), !is.na(Platform)) %>%
+  count(Genre, Platform)
+
+count$n
 ```
 
 Write 2–3 sentences here: What do the category counts tell you? What does the numeric summary show about spread, center, or outliers?
+
+The category counts show which genres, platforms, or publishers are most prominent. The numeric summary essentially shows that the sales are skewed with most games selling very little and some outliers selling far more.
 
 ## Part 2:
 

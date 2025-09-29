@@ -69,6 +69,10 @@ count <- vgdata %>%
   count(Genre, Platform)
 
 count$n
+
+vgdata %>%
+  summarise( mean_sales = mean(Global_Sales, na.rm = TRUE),
+             median_sales = median(Global_Sales, na.rm = TRUE))
 ```
 
 Write 2–3 sentences here: What do the category counts tell you? What does the numeric summary show about spread, center, or outliers?
@@ -90,38 +94,72 @@ Use the EDA Part 3 notes as your reference. Since this is an EDA assignment, you
 ### Plot 1
 
 ```{r}
-# insert code here
 
+#point plot
+ggplot(vgdata, aes(x = Genre, y = Global_Sales)) +
+  geom_count(alpha = 0.2, color = "steelblue") +
+   theme(axis.text.x = element_text(angle = 60, hjust = 1)) +
+  labs(title = "Global Sales by Genre (Point Plot)",
+       x = "Genre",
+       y = "Global Sales (millions)")
 ```
 
 Interpretation:
+
+Overall the distribution of games released per genre is seemingly even; however, action and adventure games seem to be released more frequently.
 
 ### Plot 2
 
 ```{r}
-# insert code here
+
+#density plot
+ggplot(vgdata, aes(x = Global_Sales)) +
+  geom_density(fill = "pink", alpha = 0.5) +
+  scale_x_log10() + #to better display data bc some games sell exponentially more than others.
+  labs(title = "Global Sales",
+       x = "Global Sales (millions, log scale)",
+       y = "Density") +
+  theme_minimal()
 
 ```
 
 Interpretation:
+
+This plot shows that a majority of games sold modestly under 1 million units; however, there are some best-selling titles that skew the data as they account for a majority of global sales.
 
 ### Plot 3
 
 ```{r}
-# insert code here
 
+#bar plot
+ggplot(vgdata, aes(x = Year_of_Release, fill = Genre)) +
+  geom_bar() +
+  theme(axis.text.x = element_text(angle = 60, hjust = 1)) +
+  labs(title = "Number of Games Released per Year by Genre",
+       x = "Year of Release",
+       y = "Count")
 ```
 
 Interpretation:
+
+There was a high influx of games being released in the late 2000s and early 2010s with a steep drop off in 2012. Around this time there were many new emerging consoles such as the 3ds or WiiU so it seemingly reflects that in the graph.
 
 ### Plot 4
 
 ```{r}
-# insert code here
 
+#histogram
+ggplot(vgdata, aes(x = Critic_Score)) +
+  geom_histogram(binwidth = 5, fill = "orange", color = "black") +
+  labs(title = "Histogram of Critic Scores",
+       x = "Critic Score",
+       y = "Count") +
+  theme_minimal()
 ```
 
 Interpretation:
+
+Overall, critics scores vary but there are very little games that achieve a relatively low score or a perfect score. This means that generally the games that are produced are of decent quality considering the histogram is mainly concentrated around games achieving scores around 50-90.
 
 ## Push to GitHub to Submit!
 

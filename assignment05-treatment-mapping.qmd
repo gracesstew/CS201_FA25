@@ -1,6 +1,6 @@
 ---
 title: "Assignment 5: Substance Abuse Treatment Mapping"
-subtitle: "STUDENT NAME"
+subtitle: "Grace Stewart"
 author: "Amber Camp"
 date: "`r Sys.Date()`"
 format: html
@@ -116,9 +116,80 @@ Treatment outcomes can vary depending on the type of service patients receive an
 
 ```{r}
 
+#treatments completed
+group_service <- teds_d %>%
+  mutate(
+    completed = ifelse(reason == "Treatment completed", 1, 0),
+    no_use = ifelse(reason == "no use", 1, 0)
+  ) %>%
+  group_by(services_d) %>%
+  summarise(
+    total_cases = n(),
+    percent_completed = mean(completed, na.rm = TRUE) * 100,
+    percent_no_use = mean(no_use, na.rm = TRUE) * 100
+  ) %>%
+  arrange(services_d)
+
+group_service
+
+#treatments no use @ discharge
+group_los <- teds_d %>%
+  mutate(
+    completed = ifelse(reason == "Treatment completed", 1, 0),
+    no_use = ifelse(reason == "no use", 1, 0)
+  ) %>%
+  group_by(los) %>%
+  summarise(
+    total_cases = n(),
+    percent_completed = mean(completed, na.rm = TRUE) * 100,
+    percent_no_use = mean(no_use, na.rm = TRUE) * 100
+  ) %>%
+  arrange(los)
+
+group_los
 ```
 
-Summary: (write here)
+```{r}
+
+#service type vis
+ggplot(teds_d, aes(x = reason, fill = services_d)) +
+  geom_bar() +
+  labs(
+    title = "Distribution of Treatment Outcomes by Service Type",
+    x = "Outcome",
+    y = "Number of Cases",
+    fill = "Service Type"
+  ) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+```{r}
+#length of stay vis
+ggplot(teds_d, aes(x = reason, y = los)) +
+  geom_boxplot(fill = "cyan") +
+  labs(
+    title = "Length of Stay by Treatment Outcome",
+    x = "Outcome",
+    y = "Length of Stay (days)"
+  ) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+```{r}
+#distribution of length of stay
+ggplot(teds_d, aes(x = los)) +
+  geom_histogram(binwidth = 1, fill = "pink", color = "black") +
+  labs(
+    title = "Length of Stay Distribution",
+    x = "Length of Stay (days)",
+    y = "Number of Cases"
+  ) +
+  theme_minimal()
+```
+
+Summary: Some observations I made were that many of the cases either had stayed for only a few days or stayed for extended period of time. Additionally, aside from unknown service types, the most prominent service type was ambulatory, non-intensive outpatient. Comparing that data, many completed their treatments or dropped out.
 
 ## Push to GitHub to Submit!
 

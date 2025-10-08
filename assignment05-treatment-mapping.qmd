@@ -1,0 +1,125 @@
+---
+title: "Assignment 5: Substance Abuse Treatment Mapping"
+subtitle: "STUDENT NAME"
+author: "Amber Camp"
+date: "`r Sys.Date()`"
+format: html
+editor: visual
+---
+
+## Overview
+
+Due: **Tuesday, 10/7 11:59pm**
+
+In this assignment, you will apply analytic and mapping skills on the TEDS-D dataset from SAMHSA.
+
+Refer to the following files for reference, though some of what is asked of you in this assignment will require logic beyond what was discussed here:
+
+-   week06-treatment-mapping-part1.qmd
+
+-   week06-treatment-mapping-part2.qmd
+
+Total time estimate: Two hours
+
+## Load Packages and Data
+
+```{r, message=FALSE, warning=FALSE}
+library(tidyverse)
+library(here)
+library(janitor) 
+library(arrow) # lets us read/write parquet and feather files
+library(sf) # "simple features" for spatial data
+library(urbnmapr) # access to US state/country shapefiles for mapping
+library(naniar) # tools for exploring and visualizing missing data
+library(ggiraph) # makes ggplot charts interactive
+options(scipen = 99) # turns off scientific notation
+
+```
+
+```{r}
+teds_d <- read_parquet(here("data/teds_d_clean.parquet"))
+```
+
+## Question 1
+
+Make an interactive map with `ggiraph` showing the percentage of completed treatments that end with no use at discharge. I am looking for a single interactive map as the final product.
+
+Hint: Break this question down into bite-sized steps, like we did in Part 2. The `freq1_d` column contains information about use at discharge. Check your denominator carefully — should it be *all cases* or *completed cases*?
+
+```{r}
+
+#filtering for only completed
+completed <- teds_d %>% 
+  filter(reason == "Treatment completed")
+
+#calc % of no use @ discharge by state
+percent_completed_by_state <- completed %>%
+  group_by(stfips) %>%
+  summarize(completed_cases = n(),
+    no_use = sum(freq1_d == "no use", na.rm = TRUE)) %>%
+  mutate(percentage_no_use = (no_use / completed_cases) * 100,
+         state_fips = sprintf("%02d", stfips))
+
+#get mapping data
+states_map <- get_urbn_map(map = "states", sf = TRUE)
+
+#joining data
+percent_completed_by_state_map <- full_join(states_map, 
+                                            percent_completed_by_state,
+                                            by = "state_fips")
+
+#plotting map + tooltip
+gg_map <- ggplot(percent_completed_by_state_map) +
+  geom_sf_interactive(
+    aes(
+      geometry = geometry,
+      fill = percentage_no_use,
+      tooltip = paste0(
+    state_name, "<br>",
+    #"Completed cases: ", completed_cases, "<br>", #to show number of completed cases
+    #"No use at discharge: ", no_use, "<br>", #to show number of no use @ discharge
+    "Percent no use: ", round(percentage_no_use, 1), "%"
+  ),
+      data_id = state_fips
+    ),
+    color = "#ffffff", size = 0.25
+  ) +
+  scale_fill_viridis_c(option = "plasma") +
+  labs(
+    title = "Completed Treatments Ending with No Use at Discharge",
+    fill = "% No Use"
+  ) +
+  coord_sf(datum = NA) +
+  theme_minimal()
+
+#girafe
+girafe(
+  ggobj = gg_map,
+  options = list(
+    opts_hover(css = "fill-opacity:0.5;cursor:pointer;"),
+    opts_tooltip(css = "background:white;color:black;padding:5px;border-radius:5px;")
+  )
+)
+```
+
+## Question 2
+
+Treatment outcomes can vary depending on the type of service patients receive and the length of stay in treatment.
+
+-   Investigate how the percentage of treatments completed and the percentage of treatments that end with no use at discharge differ when you look at service type and length of stay.
+
+-   Create at least three different visualizations to help answer this question.
+
+-   At least one visualization should focus on service type and at least one should focus on length of stay. A third visualization should compare the two.
+
+-   After making your visualizations, write a short summary (3-ish sentences) that explains the main patterns you observe. Please use full, grammatical sentences.
+
+```{r}
+
+```
+
+Summary: (write here)
+
+## Push to GitHub to Submit!
+
+Assignment is due Tuesday 10/7 at 11:59 pm.

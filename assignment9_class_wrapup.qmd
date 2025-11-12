@@ -101,7 +101,7 @@ wrap <- ggplot(penguins, aes(x = flipper_length_mm, y = body_mass_g, color = spe
                "Gentoo penguin (Pygoscelis papua)" = "Gentoo"
              ))) +
   labs(
-    title = "Penguins: Flipper Length vs Body Mass",
+    title = "Flipper Length vs Body Mass",
     x = "Flipper Length (mm)",
     y = "Body Mass (g)"
   ) +
@@ -127,7 +127,7 @@ grid <- ggplot(penguins, aes(x = flipper_length_mm, y = body_mass_g, color = spe
                "Gentoo penguin (Pygoscelis papua)" = "Gentoo"
              ))) +
   labs(
-    title = "Penguins: Flipper Length vs Body Mass",
+    title = "Flipper Length vs Body Mass",
     x = "Flipper Length (mm)",
     y = "Body Mass (g)"
   ) +

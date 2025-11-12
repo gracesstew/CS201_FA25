@@ -1,0 +1,141 @@
+---
+title: "Assignment 9: Class Wrap-up"
+format: html
+editor: visual
+author: "Amber Camp"
+date: "`r Sys.Date()`"
+---
+
+## Assignment 9: Class Wrap-up
+
+We are finally at the end of the semester! The final assignment for the class will be to summarize and share some of the things we've done so far.
+
+The plan is for everyone to be randomly paired with a tiny topic pertaining to something we've learned together this semester and then submit a code snippet to be presented in class on Wednesday, 11/12. (Think \~2 minute walkthrough)
+
+#### Libraries
+
+```{r, message=FALSE}
+library(tidyverse)
+library(plotly)
+library(ggplot2)
+```
+
+#### Read in the list of topics
+
+```{r, message=FALSE}
+# topics <- read_csv("data/cs201_topics.csv")
+# view(topics)
+
+# anything to edit?
+# topics[7, "topic"] <- "wildcard"
+```
+
+#### Read in the list of student names
+
+```{r, message=FALSE}
+# names <- read_csv("data/cs201_names.csv")
+# view(names)
+```
+
+#### Generate a random number in the names dataframe
+
+```{r, message=FALSE}
+# names <- names %>%
+#   mutate(number = sample(1:nrow(topics), nrow(names), replace = FALSE))
+# 
+# view(names)
+```
+
+#### Join the names to the topics
+
+```{r, message=FALSE}
+# assigned_topics <- names %>%
+#   full_join(topics, by = "number")
+# 
+# print(assigned_topics)
+# 
+# write.csv(assigned_topics, "data/assignment9_assigned_topics.csv")
+
+# note that if you run the above script and randomize the names again, your outcome will be different from mine!!
+# go with the topics assigned in class and announced on Canvas!
+```
+
+### Instructions
+
+1.  Find your assigned topic. Talk to me if you reeeeeeaaaally want to do something else, or trade with someone (but let me know).
+
+2.  Prepare a code snippet that briefly (\~2) explains the topic in the code chunk below, using `penguins` data.
+
+3.  Push to GitHub **BY 10:00am** on Wednesday 11/10 (I'll need time to compile before class).
+
+4.  Come to class Wednesday and show us how it's done :)
+
+#### Extra libraries needed (if any)
+
+```{r, message=FALSE}
+library(janitor)
+
+```
+
+#### Read in penguins data
+
+```{r, message=FALSE}
+penguins <- read_csv("data/penguins_lter.csv")
+
+penguins <- penguins %>% 
+  clean_names()
+```
+
+#### facet_wrap() vs. facet_grid()
+
+facet_wrap() allows you to break a plot into multiple smaller plots based on one categorical variable and is arranged into multiple rows and columns. The facets are wrapped and/or rearranged into new rows when they don't fit.
+
+```{r, message=FALSE}
+# facet_wrap()
+
+wrap <- ggplot(penguins, aes(x = flipper_length_mm, y = body_mass_g, color = species)) +
+  geom_point(size=0.75, alpha = 0.75) +
+  facet_wrap(~ species, # organizes plots based on species
+             labeller = labeller(species = c(
+               "Adelie Penguin (Pygoscelis adeliae)" = "Adelie",
+               "Chinstrap penguin (Pygoscelis antarctica)" = "Chinstrap",
+               "Gentoo penguin (Pygoscelis papua)" = "Gentoo"
+             ))) +
+  labs(
+    title = "Penguins: Flipper Length vs Body Mass",
+    x = "Flipper Length (mm)",
+    y = "Body Mass (g)"
+  ) +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = "none"
+  )
+
+ggplotly(wrap)
+```
+
+facet_grid() allows you to compare ***two*** categorical factors of your data across various rows and columns in a fixed grid. Each combination will get its own panel and it will notwrap or rearrange.
+
+```{r}
+# facet_grid()
+
+grid <- ggplot(penguins, aes(x = flipper_length_mm, y = body_mass_g, color = species)) +
+  geom_point(size = 0.75, alpha = 0.5) +
+  facet_grid(sex ~ species, # organizes plots in a row-column structure based on sex and species
+             labeller = labeller(species = c(
+               "Adelie Penguin (Pygoscelis adeliae)" = "Adelie",
+               "Chinstrap penguin (Pygoscelis antarctica)" = "Chinstrap",
+               "Gentoo penguin (Pygoscelis papua)" = "Gentoo"
+             ))) +
+  labs(
+    title = "Penguins: Flipper Length vs Body Mass",
+    x = "Flipper Length (mm)",
+    y = "Body Mass (g)"
+  ) +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = "none"
+  )
+
+ggplotly(grid)
+```

@@ -1,0 +1,18 @@
+,name,number,topic
+1,Tallen,1,boxplot vs. violin plot
+2,Brandon,2,dplyr::filter
+3,Aichen,3,dplyr::mutate
+4,Calvin,4,dplyr::summarize
+5,Amara,5,dplyr::case_when vs. ifelse()
+6,Cody,6,select() and rename()
+7,Kanani,7,arrange()
+8,Grace,8,facet_wrap() vs. facet_grid()
+9,Sophia,9,"scatterplots and aesthetics (aes, color, shape, size)"
+10,Karl,10,"customizing plots (labs, themes, titles)"
+11,Shelley,11,plotly
+12,Sano,12,reading in data (various options)
+13,Sadie,13,skimr and/or naniar
+14,Vlad,14,count() and group_by()
+15,Johnny,15,ggsave() and write.csv()
+16,Rei,16,wild card (student's choice!)
+17,Larchelle,17,wild card (student's choice!)

@@ -16,8 +16,6 @@ The plan is for everyone to be randomly paired with a tiny topic pertaining to s
 
 ```{r, message=FALSE}
 library(tidyverse)
-library(plotly)
-library(ggplot2)
 ```
 
 #### Read in the list of topics
@@ -74,7 +72,8 @@ library(ggplot2)
 
 ```{r, message=FALSE}
 library(janitor)
-
+library(plotly)
+library(ggplot2)
 ```
 
 #### Read in penguins data
